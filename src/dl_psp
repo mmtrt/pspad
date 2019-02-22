@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# Author:
+#   mmtrt [Taqi Raza]
+#
+# Description:
+#   download and prepare pspad for snap
+#
+# Date: Feb 21 2019
+#
+
+dlpsp () {
+    ver=$(wget https://www.pspad.com -q -S -O - 2>&1 | grep 'Version' | sed 's|</| |' | awk '{print $2}')
+    dver=$(wget http://www.pspad.com/en/download.php -O - 2>&1 | grep current | sed 's/\.//g' | awk '{print $5}')
+    wget https://www.pspad.com/files/pspad/pspad${dver}en.zip
+}
+
+mkpsp () {
+    appdir="usr/share/pspad"
+    mkdir ./{wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications,pspad}
+    unzip -e "pspad${dver}en.zip" -d "usr/share/pspad"
+    mv $appdir/PSPad.exe $appdir/pspad.exe
+    find "usr" -type d -execdir chmod 755 {} +
+}
+
+mkdsk () {
+cat > pspad.desktop <<'EOF1'
+[Desktop Entry]
+Name=PSPad
+GenericName=Text Editor
+Comment=Text editor for developers.
+Encoding=UTF-8
+Version=
+Type=Application
+Terminal=false
+Icon=${SNAP}/usr/share/pixmaps/pspad.png
+Exec=pspad %F
+StartupWMClass=pspad.exe
+Categories=Utility;TextEditor
+MimeType=text/plain;text/css;text/html;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-java;text/x-makefile;text/x-python;text/x-sh;application/x-wine-extension-ini;application/x-wine-extension-inf;
+EOF1
+sed -i -e 's|Version=|Version='"$ver"'|g' pspad.desktop
+}
+
+dlpsp
+mkdsk
+mkpsp
+
+mv pspad bin && mv pspad.desktop usr/share/applications && mv pspad.png usr/share/pixmaps && cp -R -p {bin,usr,wine-platform} $SNAPCRAFT_PART_INSTALL
