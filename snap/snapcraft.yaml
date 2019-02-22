@@ -15,6 +15,7 @@ confinement: strict
 grade: stable
 architectures:
   - build-on: amd64
+    run-on: [amd64, i386]
 
 plugs:
   wine-platform-plug:
