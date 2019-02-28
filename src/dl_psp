@@ -10,7 +10,7 @@
 #
 
 dlpsp () {
-    ver=$(wget https://www.pspad.com -q -S -O - 2>&1 | grep 'Version' | sed 's|</| |' | awk '{print $2}')
+    ver=$(wget http://www.pspad.com/en/download.php -O - 2>&1 | grep current | sed 's| (|.|g;s|)||' | awk '{print $5}')
     dver=$(wget http://www.pspad.com/en/download.php -O - 2>&1 | grep current | sed 's/\.//g' | awk '{print $5}')
     wget https://www.pspad.com/files/pspad/pspad${dver}en.zip
 }
