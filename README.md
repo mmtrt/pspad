@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="src/pspad.png" alt="Project">
+  <img src="snap/local/src/pspad.png" alt="Project">
   <br />
   pspad
 </h1>
