@@ -17,7 +17,7 @@ dlpsp () {
 
 mkpsp () {
     appdir="usr/share/pspad"
-    mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p usr/share/{pixmaps,applications,pspad}
+    mkdir -p ./{wine-runtime,wine-platform,bin} && mkdir -p sommelier/hooks && mkdir -p usr/share/{pixmaps,applications,pspad}
     unzip -e "pspad${dver}en.zip" -d "usr/share/pspad"
     mv $appdir/PSPad.exe $appdir/pspad.exe
     find "usr" -type d -execdir chmod 755 {} +
@@ -46,4 +46,4 @@ dlpsp
 mkdsk
 mkpsp
 
-mv pspad bin && mv pspad.desktop usr/share/applications && mv pspad.png usr/share/pixmaps && cp -R -p {bin,usr,wine-runtime,wine-platform} $SNAPCRAFT_PART_INSTALL
+mv pre-install sommelier/hooks && mv pspad.desktop usr/share/applications && mv pspad.png usr/share/pixmaps && cp -R -p {sommelier,bin,usr,wine-runtime,wine-platform} $SNAPCRAFT_PART_INSTALL
