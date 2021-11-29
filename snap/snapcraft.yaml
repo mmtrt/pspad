@@ -81,7 +81,7 @@ parts:
       snapcraftctl build
       set -ex
       ver=$(wget http://www.pspad.com/en/download.php -O - 2>&1 | grep current | sed 's| (|.|g;s|)||' | awk '{print $5}')
-      echo $ver > $SNAPCRAFT_STAGE/version
+      snapcraftctl set-version "$ver"
       ./dl_psp
     stage:
       - bin
